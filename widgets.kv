@@ -1,0 +1,124 @@
+<ErrorConnDB>:
+    text: "Ошибка подключения к базе данных"
+    font_size: "14sp"
+    color: 1, 0, 0, 1
+    size_hint: (None, None)
+    width: self.parent.width * .7 if self.parent else 0
+    height: "50dp"
+    text_size: self.size 
+    center_x: self.parent.width / 2 if self.parent else 0
+    top: dp(130)
+    valign: 'center'
+    halign: 'center'
+    canvas.before: 
+        Color: 
+            rgba: .88, .62, .62, 1
+        RoundedRectangle: 
+            pos: self.pos 
+            size: self.size 
+            radius: [dp(5)]
+
+<LabelWithInfo@Label>:
+    color: 0, 0, 0, 1
+    font_size: dp(14) 
+    size_hint_y: None
+    height: '17dp'
+    text_size: self.size
+    valign: 'center'
+
+<BtnForNav@Button>:
+    background_normal: ''
+    background_color: 0,0,0,0
+
+<LabelForNav@Label>:
+    font_size: '11sp'
+    center_x: self.parent.center_x
+    center_y: dp(13.5)
+
+<BtnOfIncomeMoney>:
+    size_hint: None, None 
+    size: '348dp', '33dp'
+    background_normal: ''
+    background_color: (0,0,0,0)
+    on_press: self.canvas.before.children[1].inset = True 
+    on_release: self.open_details()
+    canvas.before: 
+        Color: 
+            rgba: 0, 0, 0, .25
+        BoxShadow: 
+            id: shadow 
+            pos: self.pos
+            size: self.size 
+            offset: 0, -dp(4)
+            blur_radius: dp(8)
+            border_radius: dp(10), dp(10), dp(10), dp(10)
+            spread_radius: -dp(2), -dp(2)
+    canvas: 
+        Color: 
+            rgba: self.color_canvas
+        RoundedRectangle: 
+            pos: self.pos
+            size: self.size 
+            radius: [dp(10)]
+    BoxLayout:
+        size_hint: None, None
+        center: self.parent.center
+        size: self.parent.size[0] - dp(11), self.parent.size[1]
+        Label: 
+            text: self.parent.parent.name_income
+            font_size: "14sp"
+            color: self.parent.parent.color_text 
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+        Label: 
+            text: self.parent.parent.sum_income 
+            font_size: "14sp"
+            color: self.parent.parent.color_text
+            text_size: self.size
+            halign: 'right'
+            valign: 'center'
+
+<BtnOfExpenses>:
+    size_hint: None, None 
+    size: '348dp', '33dp'
+    background_normal: ''
+    background_color: (0,0,0,0)
+    on_press: self.canvas.before.children[1].inset = True 
+    on_release: self.open_details()
+    canvas.before: 
+        Color: 
+            rgba: 0, 0, 0, .25
+        BoxShadow: 
+            id: shadow 
+            pos: self.pos
+            size: self.size 
+            offset: 0, -dp(4)
+            blur_radius: dp(8)
+            border_radius: dp(10), dp(10), dp(10), dp(10)
+            spread_radius: -dp(2), -dp(2)
+    canvas: 
+        Color: 
+            rgba: self.color_canvas
+        RoundedRectangle: 
+            pos: self.pos
+            size: self.size 
+            radius: [dp(10)]
+    BoxLayout:
+        size_hint: None, None
+        center: self.parent.center
+        size: self.parent.size[0] - dp(11), self.parent.size[1]
+        Label: 
+            text: self.parent.parent.name_income
+            font_size: "14sp"
+            color: self.parent.parent.color_text 
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+        Label: 
+            text: self.parent.parent.sum_income 
+            font_size: "14sp"
+            color: self.parent.parent.color_text
+            text_size: self.size
+            halign: 'right'
+            valign: 'center'

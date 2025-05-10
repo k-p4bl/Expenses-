@@ -1,0 +1,735 @@
+#:include layouts.kv 
+#:include widgets.kv 
+<MainPage>:
+    ScrollView:
+        id: scroll
+        # top: root.height
+        scroll_type: ['bars', 'content']
+        pos: 0, dp(74)
+        height: root.height - dp(74)
+        width: root.width 
+        size_hint: 1, None 
+        # center_x: self.parent.center_x
+        FloatLayout:
+            id: ch_scroll
+            size_hint_y: None 
+            height: sum(child.height for child in self.children) + dp(144)
+            Headers:
+                id: header
+                top: ch_scroll.height - dp(28)
+                width: root.width * .9
+                center_x: root.width / 2
+                cols_minimum: {0: (root.width * .9) * .7, 1: (root.width * .9) * .3}
+                color_header: .066, 0, .882, 1
+                text_header: 'Финансы'
+                canvas:
+                    Color:
+                        rgba: .066, 0, .882, 1
+                    Line:
+                        points: (root.width - root.width * .9) / 2, self.top - self.height - 3, (root.width - root.width * .9) / 2 + root.width * .9, self.top - self.height - 3
+                        width: dp(2)
+            MonthChoice:
+                id: month
+                top: header.top - header.height - dp(29)
+                
+
+            MonthInfo:
+                id: month_info
+
+                top: month.top - month.height - dp(8)
+                center_x: self.parent.center_x
+
+                LabelWithInfo:
+                    text: 'Доходы в этом месяце'
+                    height: '32dp'
+                    halign: 'left'
+                LabelWithInfo:
+                    text: month_info.sum_income
+                    height: '32dp'
+                    color: (.26, .6, .16, 1)
+                    halign: 'right'
+                LabelWithInfo:
+                    text: 'Расходы в этом месяце'
+                    height: '32dp'
+                    halign: 'left'
+                LabelWithInfo:
+                    text: month_info.sum_expenses
+                    height: '32dp'
+                    color: .9, .16, .16, 1
+                    halign: 'right'
+                LabelWithInfo:
+                    id: last_in_month_info
+                    text: 'Расходы на погашение долгов'
+                    height: '32dp'
+                    halign: 'left'
+                LabelWithInfo:
+                    text: month_info.sum_credit
+                    height: '32dp'
+                    color: .984, .6941, .09
+                    halign: 'right'
+
+            Label:
+                id: second_header
+                size_hint: None, None
+                size: '200dp', '17dp'
+                font_size: '14sp'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                text: 'Средства на нужды'
+                pos: last_in_month_info.pos[0] + dp(6), last_in_month_info.top - last_in_month_info.height - dp(64)
+                color: .427, .427, .427, 1
+
+            GridLayout:
+                cols: 2
+
+                spacing: '15dp'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+
+                top: second_header.top - second_header.height - dp(15)
+                center_x: self.parent.center_x
+
+                size_hint: None, None
+                width: '340dp'
+
+                col_force_default: True
+                cols_minimum: {0: dp(270), 1: dp(65)}
+
+                LabelWithInfo:
+                    text: 'Свободные средства до конца месяца'
+                    halign: 'left'
+
+                LabelWithInfo:
+                    text: '2 082 ₽'
+                LabelWithInfo:
+                    text: 'Свободные средства в день'
+                    halign: 'left'
+                LabelWithInfo:
+                    text: '1 041 ₽'
+                LabelWithInfo:
+                    text: 'Расход за сегодня'
+                    halign: 'left'
+                LabelWithInfo:
+                    text: '585 ₽'
+                LabelWithInfo:
+                    text: 'Возможные траты за сегодня'
+                    halign: 'left'
+                LabelWithInfo:
+                    text: '456 ₽'
+
+
+    NavigateButtons:
+        
+        id: nav_btns
+        canvas_color_main: .066, 0, 1, .17
+        label_color_main: .066, 0, 1, 1
+        btn_image_main: "navigate_image/house-2.png"
+
+ 
+<IncomePage>:
+    on_enter: month.reset_month_choice()
+    every_month: every_month 
+    onetime: onetime 
+    
+    Headers:
+        id: header
+        top: root.height - dp(28)
+        width: root.width * .9
+        center_x: root.width / 2
+        cols_minimum: {0: (root.width * .9) * .7, 1: (root.width * .9) * .3}
+        color_header: .133, .49, .0235, 1
+        text_header: "Доходы"
+        canvas:
+            Color:
+                rgba: .133, .49, .0235, 1
+            Line:
+                points: (root.width - root.width * .9) / 2, self.top - self.height - 3, (root.width - root.width * .9) / 2 + root.width * .9, self.top - self.height - 3
+                width: dp(2)
+
+    ScrollView:
+        id: scroll
+        # top: root.height
+        scroll_type: ['bars', 'content']
+        pos: 0, dp(74)
+        height: root.height - dp(74)
+        width: root.width 
+        size_hint: 1, None 
+        # center_x: self.parent.center_x
+        FloatLayout:
+            id: ch_scroll
+            size_hint_y: None 
+            # height: sum(child.height for child in self.children) + dp(169) # 169
+            height: sum(child.height for child in self.children) + scroll.top - header.pos[1] + dp(100) 
+                
+            MonthChoice:
+                id: month 
+                top: sum(child.height for child in ch_scroll.children) - self.height + dp(56)
+                
+            DisplaysSums: 
+                id: sum_incomes
+                center_x: self.parent.center_x
+                top: month.top - month.height - dp(8)
+                color_text: .2627, .6078, .16078, 1
+
+            Button:
+                id: btn_plus
+                on_release: app.switch_to_add_income_page(scroll)
+                size_hint: None, None 
+                size: '50dp', '50dp'
+                pos: root.width - self.width - dp(10), sum_incomes.top - sum_incomes.height - self.height / 2 - dp(18)
+                background_normal: ''
+                background_color: 0, 0, 0, 0
+                Label: 
+                    pos: self.parent.pos
+                    size_hint: None, None 
+                    size: self.parent.size
+                    font_size: "36sp"
+                    color: .2627, .6078, .16078, 1
+                    text: "+"
+
+            GridLayout:
+                id: rest_of_money
+
+                cols: 2
+
+                spacing: '15dp'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+
+                top: btn_plus.top - btn_plus.height - dp(18)
+                center_x: self.parent.center_x
+
+                size_hint: None, None
+                width: '340dp'
+                height: "20dp"
+
+                col_force_default: True
+                cols_minimum: {0: dp(270), 1: dp(65)}
+
+                LabelWithInfo:
+                    text: "Остаток с прошлого месяца"
+                LabelWithInfo:
+                    text: "568₽"
+
+            Label: 
+                id: second_header
+                size_hint: None, None
+                size: '200dp', '17dp'
+                font_size: '14sp'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                text: 'Ежемесячное поступление'
+                pos: rest_of_money.pos[0] + dp(6), rest_of_money.top - rest_of_money.height - dp(32)
+                color: .427, .427, .427, 1
+
+            GridLayout:
+                id: every_month
+                cols: 1
+                size_hint: None, None 
+                width: '348dp'
+                height: sum([ch.height + dp(4) for ch in self.children])
+                top: second_header.top - second_header.height - dp(8)
+                center_x: self.parent.center_x
+                spacing: '4dp'
+                
+            Label: 
+                id: thrid_header
+                size_hint: None, None
+                size: '200dp', '17dp'
+                font_size: '14sp'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                text: 'Единоразовое поступление'
+                pos: rest_of_money.pos[0] + dp(6), every_month.top - every_month.height - dp(38)
+                color: .427, .427, .427, 1
+
+            GridLayout:
+                id: onetime 
+                cols: 1
+                size_hint: None, None 
+                width: '348dp'
+                height: sum([ch.height + dp(4) for ch in self.children])
+                top: thrid_header.top - thrid_header.height - dp(8)
+                center_x: self.parent.center_x
+                spacing: '4dp'
+
+
+    NavigateButtons:
+        id: nav_btns
+        canvas_color_income: .133, .49, .0235, .31
+        label_color_income: .133, .49, .0235, 1
+        btn_image_income: "navigate_image/money-income-2.png"
+
+
+<AddIncomePage>:
+    id: add_income_page
+    name_new_income: name_new_income
+    size_hint_y: None 
+
+    Label:
+        id: name_new_income
+        text: 'Название'
+        font_size: "14sp"
+        color: .4275, .4275, .4275, 1
+        size_hint_y: None
+        height: "20dp"
+        text_size: self.size
+        valign: 'center'
+        halign: 'left'
+
+    TextInput:
+        id: input_name_new_income
+        font_size: "14sp"
+        size_hint: .9, None
+        height: dp(33)
+        pos: name_new_income.pos[0] - dp(12), name_new_income.pos[1] - dp(4) - self.height
+        hint_text: "Заработная плата"
+        hint_text_color: .4275, .4275, .4275, 1
+        multiline: False
+        write_tab: False
+        background_normal: 'images/TextInputBackgroundNormal.png'
+        background_active: 'images/TextInputBackgroundActive.png'
+        border: 1, 1, 1, 1
+        cursor_color: 0, 0, 0, 1
+        padding: dp(16), dp(8)
+            
+    Label:
+        id: sum_new_income
+        text: 'Сумма'
+        font_size: "14sp"
+        color: .4275, .4275, .4275, 1
+        size_hint_y: None 
+        height: "20dp"
+        text_size: self.size 
+        valign: 'center' 
+        halign: "left"
+        pos: input_name_new_income.pos[0] + dp(12), input_name_new_income.pos[1] - dp(16) - self.height
+
+    SumTextInput:
+        id: input_sum_new_income
+        font_size: "14sp"
+        size_hint: .9, None 
+        height: dp(33)
+        pos: sum_new_income.pos[0] - dp(12), sum_new_income.pos[1] - dp(4) - self.height 
+        hint_text: "9 999,00"
+        hint_text_color: .4275, .4275, .4275, 1
+        multiline: False
+        write_tab: False
+        background_normal: 'images/TextInputBackgroundNormal.png'
+        background_active: 'images/TextInputBackgroundActive.png'
+        border: 1, 1, 1, 1
+        cursor_color: 0, 0, 0, 1
+        padding: dp(16), dp(8), dp(45), dp(8)
+        input_type: 'number'
+    Label: 
+        text: '₽'
+        font_size: "14sp"
+        color: .4275, .4275, .4275, 1
+        size_hint: None, None 
+        height: "20dp"
+        widht: "11dp"
+        text_size: self.size 
+        valign: 'center'
+        halign: 'right'
+        center_y: input_sum_new_income.center_y
+        right: input_sum_new_income.right - dp(15)
+
+    Label:
+        id: date_new_income 
+        text: 'Дата начисления'
+        font_size: "14sp"
+        color: .4275, .4275, .4275, 1
+        size_hint_y: None 
+        height: "20dp"
+        text_size: self.size 
+        valign: 'center' 
+        halign: "left"
+        pos: input_sum_new_income.pos[0] + dp(12), input_sum_new_income.pos[1] - dp(16) - self.height
+
+    DateTextInput:
+        id: input_date_new_income
+        font_size: "14sp"
+        size_hint: .9, None 
+        height: dp(33)
+        pos: date_new_income.pos[0] - dp(12), date_new_income.pos[1] - dp(4) - self.height 
+        hint_text: "ДД.ММ.ГГГГ"
+        hint_text_color: .4275, .4275, .4275, 1
+        multiline: False
+        write_tab: False
+        background_normal: 'images/TextInputBackgroundNormal.png'
+        background_active: 'images/TextInputBackgroundActive.png'
+        border: 1, 1, 1, 1
+        cursor_color: 0, 0, 0, 1
+        padding: dp(16), dp(8), dp(45), dp(8)
+        input_type: 'datetime'
+        input_filter: "int"
+        
+    ToggleButton:
+        id: check_box_every_month
+        pos: input_date_new_income.pos[0], input_date_new_income.pos[1] - dp(16) - self.height 
+        size_hint: None, None 
+        size: "20dp", "20dp"
+        background_normal: "images/CheckBoxNormal_1x.png"
+        background_down: 'images/CheckBoxDown_1x.png'
+
+    Label: 
+        text: '– Повторять каждый месяц'
+        font_size: "14sp"
+        color: 0, 0, 0, 1
+        size_hint_y: None 
+        height: "20dp"
+        text_size: self.size 
+        valign: 'center'
+        halign: 'left'
+        pos: check_box_every_month.right + dp(5), check_box_every_month.pos[1]
+
+    BoxLayout:
+        top: check_box_every_month.y - dp(15)
+        x: root.width * .05
+        size_hint: .9, None 
+        height: "25dp"
+        
+        GridLayout:
+            cols: 2
+            spacing: "5dp"
+            Button:
+                text: 'Назад'
+                font_size: "14sp"
+                text_size: self.size 
+                valign: 'center'
+                halign: 'center'
+                color: 0, 0, 0, 1
+                size_hint_x: None 
+                width: "68dp"
+                background_normal: 'images/BtnBack_1x.png'
+                background_down: 'images/BtnBackDown_1x.png'
+                on_release: app.switch_to_back_income_page(root.parent)
+            ToggleButton:
+                text: 'Сохранить'
+                font_size: "14sp"
+                text_size: self.size 
+                valign: 'center'
+                halign: 'center'
+                color: .137, .494, 0, 1
+                size_hint_x: None 
+                width: "88dp"
+                background_normal: 'images/BtnSave_1x.png'
+                background_down: 'images/BtnSaveDown_1x.png'
+                on_press: app.add_new_income(self, input_name_new_income.text, input_sum_new_income.text, input_date_new_income.text, True if check_box_every_month.state == "down" else False)
+
+        Button:
+            text: 'Удалить'
+            font_size: "14sp"
+            text_size: self.size 
+            valign: 'center'
+            halign: 'center'
+            color: 0, 0, 0, 1
+            disabled_color: .4275, .4275, .4275, 1
+            size_hint_x: None 
+            width: "80dp"
+            disabled: True
+            background_disabled_normal: 'images/BtnDeleteDisabled_1x.png'
+            background_disabled_down: ''
+            background_normal: 'images/BtnDelete_1x.png'
+            background_down: 'images/BtnDeleteDown_1x.png'
+
+<ExpensesPage>:
+    on_enter: month.reset_month_choice()
+    every_month: every_month 
+    onetime: onetime 
+    
+    Headers:
+        id: header
+        top: root.height - dp(28)
+        width: root.width * .9
+        center_x: root.width / 2
+        cols_minimum: {0: (root.width * .9) * .7, 1: (root.width * .9) * .3}
+        color_header: .765, .1255, .1255, 1
+        text_header: "Расходы"
+        canvas:
+            Color:
+                rgba: .765, .1255, .1255, 1
+            Line:
+                points: (root.width - root.width * .9) / 2, self.top - self.height - 3, (root.width - root.width * .9) / 2 + root.width * .9, self.top - self.height - 3
+                width: dp(2)
+
+    ScrollView:
+        id: scroll
+        # top: root.height
+        scroll_type: ['bars', 'content']
+        pos: 0, dp(74)
+        height: root.height - dp(74)
+        width: root.width 
+        size_hint: 1, None 
+        # center_x: self.parent.center_x
+        FloatLayout:
+            id: ch_scroll
+            size_hint_y: None 
+            height: sum(child.height for child in self.children) + scroll.top - header.pos[1] + dp(100) 
+
+            MonthChoice:
+                id: month 
+                y: sum(child.height for child in ch_scroll.children) - self.height + dp(56)
+            
+            DisplaysSums: 
+                id: sum_incomes
+                top: month.top - month.height - dp(8)
+                center_x: self.parent.center_x
+                color_text: .9098, .1609, .1609, 1
+
+            Button:
+                id: btn_plus
+                size_hint: None, None 
+                size: '50dp', '50dp'
+                pos: root.width - self.width - dp(10), sum_incomes.top - sum_incomes.height - self.height / 2 - dp(18)
+                background_normal: ''
+                background_color: 0, 0, 0, 0
+                on_release: app.switch_to_add_expenses_page(scroll)
+                Label: 
+                    pos: self.parent.pos
+                    size_hint: None, None 
+                    size: self.parent.size
+                    font_size: "36sp"
+                    color: .9098, .1609, .1609, 1
+                    text: "+"
+
+            Label: 
+                id: second_header
+                size_hint: None, None
+                size: '200dp', '17dp'
+                font_size: '14sp'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                text: 'Ежемесячное списание'
+                pos: sum_incomes.pos[0] + dp(6), btn_plus.top - btn_plus.height - dp(32)
+                color: .427, .427, .427, 1
+
+            GridLayout:
+                id: every_month
+                cols: 1
+                size_hint: None, None 
+                width: '348dp'
+                height: sum([ch.height + dp(4) for ch in self.children])
+                top: second_header.top - second_header.height - dp(8)
+                center_x: self.parent.center_x
+                spacing: '4dp'
+                
+            Label: 
+                id: thrid_header
+                size_hint: None, None
+                size: '200dp', '17dp'
+                font_size: '14sp'
+                text_size: self.size
+                halign: 'left'
+                valign: 'center'
+                text: 'Единоразовое списание'
+                pos: sum_incomes.pos[0] + dp(6), every_month.top - every_month.height - dp(38)
+                color: .427, .427, .427, 1
+
+            GridLayout:
+                id: onetime 
+                cols: 1
+                size_hint: None, None 
+                width: '348dp'
+                height: sum([ch.height + dp(4) for ch in self.children])
+                top: thrid_header.top - thrid_header.height - dp(8)
+                center_x: self.parent.center_x
+                spacing: '4dp'
+    NavigateButtons:
+        id: nav_btns
+        canvas_color_expenses: .765, .1255, .1255, .40
+        label_color_expenses: .765, .1255, .1255, 1
+        btn_image_expenses: "navigate_image/cheap-stack-2.png"
+
+<AddExpensesPage>:
+    id: add_expenses_page
+    name_new_expenses: name_new_expenses
+    size_hint_y: None 
+
+    Label:
+        id: name_new_expenses
+        text: 'Название'
+        font_size: "14sp"
+        color: .4275, .4275, .4275, 1
+        size_hint_y: None
+        height: "20dp"
+        text_size: self.size
+        valign: 'center'
+        halign: 'left'
+
+    TextInput:
+        id: input_name_new_expenses
+        font_size: "14sp"
+        size_hint: .9, None
+        height: dp(33)
+        pos: name_new_expenses.pos[0] - dp(12), name_new_expenses.pos[1] - dp(4) - self.height
+        hint_text: "Заработная плата"
+        hint_text_color: .4275, .4275, .4275, 1
+        multiline: False
+        write_tab: False
+        background_normal: 'images/TextInputBackgroundNormal.png'
+        background_active: 'images/TextInputBackgroundActive_red.png'
+        border: 1, 1, 1, 1
+        cursor_color: 0, 0, 0, 1
+        padding: dp(16), dp(8)
+            
+    Label:
+        id: sum_new_expenses
+        text: 'Сумма'
+        font_size: "14sp"
+        color: .4275, .4275, .4275, 1
+        size_hint_y: None 
+        height: "20dp"
+        text_size: self.size 
+        valign: 'center' 
+        halign: "left"
+        pos: input_name_new_expenses.pos[0] + dp(12), input_name_new_expenses.pos[1] - dp(16) - self.height
+
+    SumTextInput:
+        id: input_sum_new_expenses
+        font_size: "14sp"
+        size_hint: .9, None 
+        height: dp(33)
+        pos: sum_new_expenses.pos[0] - dp(12), sum_new_expenses.pos[1] - dp(4) - self.height 
+        hint_text: "9 999,00"
+        hint_text_color: .4275, .4275, .4275, 1
+        multiline: False
+        write_tab: False
+        background_normal: 'images/TextInputBackgroundNormal.png'
+        background_active: 'images/TextInputBackgroundActive_red.png'
+        border: 1, 1, 1, 1
+        cursor_color: 0, 0, 0, 1
+        padding: dp(16), dp(8), dp(45), dp(8)
+        input_type: 'number'
+    Label: 
+        text: '₽'
+        font_size: "14sp"
+        color: .4275, .4275, .4275, 1
+        size_hint: None, None 
+        height: "20dp"
+        widht: "11dp"
+        text_size: self.size 
+        valign: 'center'
+        halign: 'right'
+        center_y: input_sum_new_expenses.center_y
+        right: input_sum_new_expenses.right - dp(15)
+
+    Label:
+        id: date_new_expenses
+        text: 'Дата начисления'
+        font_size: "14sp"
+        color: .4275, .4275, .4275, 1
+        size_hint_y: None 
+        height: "20dp"
+        text_size: self.size 
+        valign: 'center' 
+        halign: "left"
+        pos: input_sum_new_expenses.pos[0] + dp(12), input_sum_new_expenses.pos[1] - dp(16) - self.height
+
+    DateTextInput:
+        id: input_date_new_expenses
+        font_size: "14sp"
+        size_hint: .9, None 
+        height: dp(33)
+        pos: date_new_expenses.pos[0] - dp(12), date_new_expenses.pos[1] - dp(4) - self.height 
+        hint_text: "ДД.ММ.ГГГГ"
+        hint_text_color: .4275, .4275, .4275, 1
+        multiline: False
+        write_tab: False
+        background_normal: 'images/TextInputBackgroundNormal.png'
+        background_active: 'images/TextInputBackgroundActive_red.png'
+        border: 1, 1, 1, 1
+        cursor_color: 0, 0, 0, 1
+        padding: dp(16), dp(8), dp(45), dp(8)
+        input_type: 'datetime'
+        input_filter: "int"
+        
+    ToggleButton:
+        id: check_box_every_month
+        pos: input_date_new_expenses.pos[0], input_date_new_expenses.pos[1] - dp(16) - self.height 
+        size_hint: None, None 
+        size: "20dp", "20dp"
+        background_normal: "images/CheckBoxNormal_1x.png"
+        background_down: 'images/CheckBoxDown_1x.png'
+
+    Label: 
+        text: '– Повторять каждый месяц'
+        font_size: "14sp"
+        color: 0, 0, 0, 1
+        size_hint_y: None 
+        height: "20dp"
+        text_size: self.size 
+        valign: 'center'
+        halign: 'left'
+        pos: check_box_every_month.right + dp(5), check_box_every_month.pos[1]
+
+    Button:
+        id: btn_check_add
+        pos: check_box_every_month.x, check_box_every_month.y - self.height - dp(14)
+        text: 'Добавить чек'
+        font_size: "14sp"
+        text_size: self.size 
+        valign: 'center'
+        halign: 'center'
+        color: 0, 0, 0, 1
+        size_hint: None, None 
+        height: "31dp"
+        width: "115dp"
+        background_normal: 'images/BtnCheckAdd.png'
+        background_down: 'images/BtnCheckAddDown.png'
+
+    BoxLayout:
+        top: btn_check_add.y - dp(15)
+        x: root.width * .05
+        size_hint: .9, None 
+        height: "25dp"
+        
+        GridLayout:
+            cols: 2
+            spacing: "5dp"
+            Button:
+                text: 'Назад'
+                font_size: "14sp"
+                text_size: self.size 
+                valign: 'center'
+                halign: 'center'
+                color: 0, 0, 0, 1
+                size_hint_x: None 
+                width: "68dp"
+                background_normal: 'images/BtnBack_red.png'
+                background_down: 'images/BtnBackDown_red.png'
+                on_release: app.switch_back_to_expenses_page(root.parent)
+            ToggleButton:
+                text: 'Сохранить'
+                font_size: "14sp"
+                text_size: self.size 
+                valign: 'center'
+                halign: 'center'
+                color: .765, .1255, .1255, 1
+                size_hint_x: None 
+                width: "88dp"
+                background_normal: 'images/BtnSave_red.png'
+                background_down: 'images/BtnSaveDown_red.png'
+                on_press: app.add_new_expenses(self, input_name_new_expenses.text, input_sum_new_expenses.text, input_date_new_expenses.text, True if check_box_every_month.state == "down" else False)
+
+        Button:
+            text: 'Удалить'
+            font_size: "14sp"
+            text_size: self.size 
+            valign: 'center'
+            halign: 'center'
+            color: 0, 0, 0, 1
+            disabled_color: .4275, .4275, .4275, 1
+            size_hint_x: None 
+            width: "80dp"
+            disabled: True
+            background_disabled_normal: 'images/BtnDeleteDisabled_red.png'
+            background_disabled_down: ''
+            background_normal: 'images/BtnDelete_red.png'
+            background_down: 'images/BtnDeleteDown_red.png'

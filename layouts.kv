@@ -1,0 +1,207 @@
+<Headers>:
+    cols: 2
+    size_hint: None, None
+    height: '52.5dp'
+    col_force_default: True
+    Label:
+        id: header_name
+        text_size: self.size
+        valign: 'bottom'
+        halign: 'left'
+        text: self.parent.text_header 
+        color: self.parent.color_header
+        font_size: '40sp'
+    Label:
+        id: header_date
+        text_size: self.size
+        valign: 'bottom'
+        halign: 'right'
+        text: self.parent.date
+        font_size: '14sp'
+        color: self.parent.color_header
+
+<MonthChoice>:
+    size_hint_y: None
+    height: '32dp'
+    text_with_date: month_text
+    btn_to_next_month: next_month
+    
+
+    Button:
+        text: '<'
+        background_normal: ''
+        background_color: 0, 0, 0, 0
+        color: 0, 0, 0, 1
+        font_size: '14sp'
+        on_release: self.parent.get_previous_month()
+    Label:
+        id: month_text
+        text: self.parent.get_text_from_date()
+        color: 0, 0, 0, 1
+        font_size: '14sp'
+
+    Button:
+        id: next_month 
+        disabled: True 
+        text: '>'
+        background_normal: ''
+        background_color: 0, 0, 0, 0
+        color: 0, 0, 0, 1
+        disabled_color: 0, 0, 0, .3
+        font_size: '14sp'
+        on_release: self.parent.get_next_month()
+<DisplaysSums>:
+    size_hint: None, None
+    height: "20dp"
+    width: self.parent.width * .9
+    spacing: "5dp"
+    Label: 
+        text: root.first_sum
+        color: root.color_text
+        font_size: "16sp"
+        text_size: self.size
+        valign: 'bottom'
+        halign: "right"
+    Label: 
+        text: root.second_sum
+        color: .4275, .4275, .4275, 1
+        font_size: "14sp"
+        text_size: self.size
+        valign: 'bottom'
+        halign: "left"
+<MonthInfo>:
+    cols: 2
+    size_hint: None, None
+    width: '340dp'
+
+    col_force_default: True
+    cols_minimum: {0: dp(225), 1: dp(110)}
+
+<NavigateButtons>:
+    size_hint_y: None
+    height: '74dp'
+
+    canvas:
+        Color:
+            rgba: .89, .89, .89, 1
+        Line:
+            points: (root.width - root.width * .9) / 2, self.top + dp(3), (root.width - root.width * .9) / 2 + root.width * .9, self.top + dp(3)
+            width: dp(1.3)
+        BoxShadow:
+            size: dp(.5), self.height * .7
+            pos: root.width * .2, (self.height - self.height * .7) / 2
+            blur_radius: dp(8)
+        BoxShadow:
+            size: dp(.5), self.height * .7
+            pos: root.width * .4, (self.height - self.height * .7) / 2
+            blur_radius: dp(8)
+        BoxShadow:
+            size: dp(.5), self.height * .7
+            pos: root.width * .6, (self.height - self.height * .7) / 2
+            blur_radius: dp(8)
+        BoxShadow:
+            size: dp(.5), self.height * .7
+            pos: root.width * .8, (self.height - self.height * .7) / 2
+            blur_radius: dp(8)
+        
+        
+
+    btn_to_main: main
+    btn_to_income: income
+    btn_to_expenses: expenses 
+    btn_to_credit: credit
+    btn_to_analysis: analysis
+
+    BtnForNav:
+        id: main
+        on_release: root.parent.manager.current = "main"
+        canvas:
+            Color:
+                rgba: self.parent.canvas_color_main
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [dp(10)]
+
+        Image:
+            center: self.parent.center
+            source: self.parent.parent.btn_image_main
+            size: "30dp", "30dp"
+        LabelForNav:
+            text: 'Главная'
+            color: self.parent.parent.label_color_main
+
+    BtnForNav:
+        id: income
+        on_release: root.parent.manager.current = "income"
+        canvas:
+            Color:
+                rgba: self.parent.canvas_color_income
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [dp(10)]
+        Image:
+            center: self.parent.center
+            source: self.parent.parent.btn_image_income
+            size: "30dp", "30dp"
+        LabelForNav:
+            text: 'Доход'
+            color: self.parent.parent.label_color_income
+
+    BtnForNav:
+        id: expenses
+        on_release: root.parent.manager.current = "expenses"
+        canvas:
+            Color:
+                rgba: self.parent.canvas_color_expenses
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [dp(10)]
+        Image:
+            center: self.parent.center
+            source: self.parent.parent.btn_image_expenses
+            size: "30dp", "30dp"
+        LabelForNav:
+            text: 'Расход'
+            color: self.parent.parent.label_color_expenses
+
+    BtnForNav:
+        id: credit
+        on_release: root.parent.manager.current = "credit"
+        canvas:
+            Color:
+                rgba: self.parent.canvas_color_credit
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [dp(10)]
+        Image:
+            center: self.parent.center
+            source: self.parent.parent.btn_image_credit
+            size: "30dp", "30dp"
+
+        LabelForNav:
+            text: 'Долги'
+            color: self.parent.parent.label_color_credit
+
+    BtnForNav:
+        id: analysis 
+        on_release: root.parent.manager.current = "analysis"
+        canvas:
+            Color:
+                rgba: self.parent.canvas_color_analysis
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [dp(10)]
+        Image:
+            center: self.parent.center
+            source: self.parent.parent.btn_image_analysis
+            size: "30dp", "30dp"
+
+        LabelForNav:
+            text: 'Анализ'
+            color: self.parent.parent.label_color_analysis
+
