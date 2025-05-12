@@ -1,11 +1,12 @@
 import locale
 import re
+from typing import TypedDict
 
+from kivy.metrics import dp
 from kivy.properties import NumericProperty, ColorProperty, StringProperty
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
-
 
 locale.setlocale(locale.LC_ALL, 'RU_ru')
 
@@ -154,3 +155,31 @@ class DateTextInput(TextInput):
             if len(text) >= 5:
                 text = text[:5] + "." + text[5:]
             self.text = text
+
+
+class CreditInfo(TypedDict):
+    name_credit: str
+    first_sum: str
+    total_sum_to_repaid: str
+    credit_rate: str
+    credit_servicing_sum: str
+    main_credit: str
+    per_cent: str
+    credit_term: str
+    monthly_payment: str
+
+
+class BtnOfCredit(Button):
+    def __init__(self,
+                 name_credit="", first_sum="", total_sum_to_repaid="", credit_rate="", credit_servicing_sum="",
+                 main_credit="", per_cent="", credit_term="", monthly_payment="",
+                 **kwargs):
+        super().__init__(**kwargs)
+        credit_info_cols = {"name_credit": name_credit, "first_sum": first_sum,
+                            "total_sum_to_repaid": total_sum_to_repaid, "credit_rate": credit_rate,
+                            "credit_servicing_sum": credit_servicing_sum, "main_credit": main_credit,
+                            "per_cent": per_cent, "credit_term": credit_term, "monthly_payment": monthly_payment}
+        for credit_col in credit_info_cols.keys():
+            self.ids[credit_col].text = credit_info_cols[credit_col]
+        return
+

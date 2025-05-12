@@ -733,3 +733,63 @@
             background_disabled_down: ''
             background_normal: 'images/BtnDelete_red.png'
             background_down: 'images/BtnDeleteDown_red.png'
+
+<CreditPage>: 
+    Headers:
+        id: header
+        top: root.height - dp(28)
+        width: root.width * .9
+        center_x: root.width / 2
+        cols_minimum: {0: (root.width * .9) * .7, 1: (root.width * .9) * .3}
+        color_header: .886, .6, 0, 1
+        text_header: "Долги"
+        canvas:
+            Color:
+                rgba: .886, .6, 0, 1
+            Line:
+                points: (root.width - root.width * .9) / 2, self.top - self.height - 3, (root.width - root.width * .9) / 2 + root.width * .9, self.top - self.height - 3
+                width: dp(2)
+
+    ScrollView:
+        id: scroll
+        scroll_type: ['bars', 'content']
+        pos: 0, dp(74)
+        height: root.height - dp(74)
+        width: root.width 
+        size_hint: 1, None 
+        FloatLayout:
+            id: ch_scroll
+            size_hint_y: None 
+            height: sum(child.height for child in self.children) + scroll.top - header.pos[1] + dp(10) 
+
+            Button:
+                id: btn_plus
+                size_hint: None, None 
+                size: '50dp', '50dp'
+                pos: (root.width - root.width * .9) / 2 + root.width * .9 - self.width, ch_scroll.height - header.height - (root.height - header.top) - self.height - dp(10)
+                background_normal: ''
+                background_color: 0, 0, 0, 0
+                on_release: #app.switch_to_add_expenses_page(scroll)
+                Label: 
+                    pos: self.parent.pos
+                    size_hint: None, None 
+                    size: self.parent.size
+                    font_size: "36sp"
+                    color: .886, .6, 0, 1
+                    text: "+"
+
+            GridLayout:
+                id: list_of_btn
+                cols: 1
+                size_hint: None, None 
+                width: '348dp'
+                height: sum([ch.height + dp(20) for ch in self.children])
+                top: btn_plus.y - dp(7)
+                center_x: self.parent.center_x
+                spacing: '20dp'
+            
+    NavigateButtons:
+        id: nav_btns
+        canvas_color_credit: .886, .6, 0, .29
+        label_color_credit: .886, .6, 0, 1
+        btn_image_credit: "navigate_image/bank-2.png"

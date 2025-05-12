@@ -122,3 +122,126 @@
             text_size: self.size
             halign: 'right'
             valign: 'center'
+
+<BtnOfCredit>:
+    size_hint: None, None 
+    width: dp(348)
+    height: sum([ch.height for ch in self.children]) + dp(20) + name_credit.texture_size[1]
+    background_normal: ''
+    background_color: (0,0,0,0)
+    #on_release: self.open_details()
+    canvas.before: 
+        Color: 
+            rgba: .878, .878, .878, 1
+        RoundedRectangle: 
+            pos: self.x - dp(1.5), self.y - dp(1.5) 
+            size: self.width + dp(3), self.height + dp(3)
+            radius: [dp(20)]
+    canvas: 
+        Color: 
+            rgba: .96, .96, .96, 1
+        RoundedRectangle: 
+            pos: self.pos 
+            size: self.size 
+            radius: [dp(20)]
+    Label: 
+        id: name_credit 
+        size_hint: None, None
+        width: root.width * .925
+        x: root.x + dp(13)  
+        height: self.texture_size[1]
+        y: root.top - self.height - dp(10)
+        text_size: self.size 
+        font_size: "16sp"
+        color: 0, 0, 0, 1
+        valign: 'center'
+
+    GridLayout:
+        id: credit_info 
+        cols: 2
+        size_hint: None, None 
+        width: root.width * .845
+        height: "76dp"
+        pos: root.x + dp(27), name_credit.y - self.height - dp(5)
+        spacing: "4dp"
+        
+        Label:
+            id: first_sum
+            font_size: "14sp"
+            color: .275, .275, .275, 1
+            size_hint_y: None 
+            height: dp(15)
+            text_size: self.size 
+            valign: "center" 
+            halign: "left" 
+    
+        Label: 
+            id: total_sum_to_repaid
+            font_size: "14sp"
+            color: .275, .275, .275, 1
+            size_hint_y: None 
+            height: dp(15)
+            text_size: self.size 
+            valign: "center" 
+            halign: "left" 
+
+        Label: 
+            id: credit_rate
+            font_size: "14sp"
+            color: .275, .275, .275, 1
+            size_hint_y: None 
+            height: dp(15)
+            text_size: self.size 
+            valign: "center" 
+            halign: "left" 
+
+        Label: 
+            id: credit_servicing_sum
+            font_size: "14sp"
+            color: .275, .275, .275, 1
+            size_hint_y: None 
+            height: dp(15)
+            text_size: self.size 
+            valign: "center" 
+            halign: "left" 
+
+        Label: 
+            id: main_credit 
+            font_size: "14sp"
+            color: .275, .275, .275, 1
+            size_hint_y: None 
+            height: dp(15)
+            text_size: self.size 
+            valign: "center" 
+            halign: "left" 
+
+        Label: 
+            id: per_cent
+            font_size: "14sp"
+            color: .275, .275, .275, 1
+            size_hint_y: None 
+            height: dp(15)
+            text_size: self.size 
+            valign: "center" 
+            halign: "left" 
+            
+        Label: 
+            id: credit_term
+            font_size: "14sp"
+            color: .275, .275, .275, 1
+            size_hint_y: None 
+            height: dp(15)
+            text_size: self.size 
+            valign: "center" 
+            halign: "left" 
+     
+        Label: 
+            id: monthly_payment 
+            font_size: "14sp"
+            color: .275, .275, .275, 1
+            size_hint_y: None 
+            height: dp(15)
+            text_size: self.size 
+            valign: "center" 
+            halign: "left" 
+       

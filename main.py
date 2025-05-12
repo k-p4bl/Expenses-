@@ -16,7 +16,7 @@ from kivy.uix.scrollview import ScrollView
 
 from layouts import AddIncomePage, AddExpensesPage
 from screens import MainPage, IncomePage, ExpensesPage, CreditPage, AnalysisPage
-from widgets import BtnOfIncomeMoney, BtnOfExpenses, ErrorConnDB
+from widgets import BtnOfIncomeMoney, BtnOfExpenses, BtnOfCredit, ErrorConnDB, CreditInfo
 
 from kivy.core.window import Window
 
@@ -41,11 +41,12 @@ class ExpensesApp(App):
         main = MainPage(name="main")
         income = IncomePage(name="income")
         expenses = ExpensesPage(name="expenses")
+        credit = CreditPage(name="credit")
         self.float_child_scroll = income.ids.ch_scroll
         self.float_child_scroll.bind(children=self.update_height)
         try:
             if os.path.exists("expenses.db"):
-                self._get_data_db(main=main, income=income, expenses=expenses)
+                self._get_data_db(main=main, income=income, expenses=expenses, credit=credit)
             else:
                 raise
         except:
@@ -56,7 +57,7 @@ class ExpensesApp(App):
         scr_manager.add_widget(main)
         scr_manager.add_widget(income)
         scr_manager.add_widget(expenses)
-        scr_manager.add_widget(CreditPage(name="credit"))
+        scr_manager.add_widget(credit)
         scr_manager.add_widget(AnalysisPage(name="analysis"))
         return scr_manager
 
