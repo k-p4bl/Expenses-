@@ -1,18 +1,53 @@
+import datetime
 import locale
 import re
 from typing import TypedDict
 
+from kivy.app import App
 from kivy.metrics import dp
 from kivy.properties import NumericProperty, ColorProperty, StringProperty
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
+
+from layouts import DropDownList
 
 locale.setlocale(locale.LC_ALL, 'RU_ru')
 
 
 class ErrorConnDB(Label):
     parent_width = NumericProperty()
+
+
+class LabelWithInfo(Label):
+    key = StringProperty("")
+
+    def drop_down_list(self):
+        root: Screen = App.get_running_app().root.current_screen
+
+        ls = DropDownList()
+
+        text_month_choice: str = root.ids["month"].text_with_date.text
+
+        list_of_month = ["Январь", "Февраль", "Март",
+                         "Апрель", "Май", "Июнь",
+                         "Июль", "Август", "Сентябрь",
+                         "Октябрь", "Ноябрь", "Декабрь"]
+
+        month, year = text_month_choice.replace("За ", "").split(" ")
+
+        for number_of_month, val in enumerate(list_of_month, start=1):
+            if val == month:
+                month = number_of_month
+                break
+
+        ls.fill_the_table(self.key, month, int(year))
+
+        root.ids["ch_scroll"].add_widget(ls)
+        ls.top = self.y + dp(85)  # 85 - is a transition from one coordinate system to another
+        ls.center_x = root.center_x
+        return
 
 
 class BtnOfIncomeMoney(Button):
@@ -183,3 +218,10 @@ class BtnOfCredit(Button):
             self.ids[credit_col].text = credit_info_cols[credit_col]
         return
 
+
+class LabelWidthNameForDropDownList(Label):
+    pass
+
+
+class LabelWidthAmountForDropDownList(Label):
+    pass

@@ -25,6 +25,13 @@
     height: '17dp'
     text_size: self.size
     valign: 'center'
+    Button: 
+        size: root.size 
+        pos: root.pos 
+        background_normal: ''
+        background_down: ''
+        background_color: 0, 0, 0, 0
+        on_press: root.drop_down_list()
 
 <BtnForNav@Button>:
     background_normal: ''
@@ -244,4 +251,3 @@
             text_size: self.size 
             valign: "center" 
             halign: "left" 
-       

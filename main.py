@@ -16,7 +16,7 @@ from kivy.uix.scrollview import ScrollView
 
 from layouts import AddIncomePage, AddExpensesPage
 from screens import MainPage, IncomePage, ExpensesPage, CreditPage, AnalysisPage
-from widgets import BtnOfIncomeMoney, BtnOfExpenses, BtnOfCredit, ErrorConnDB, CreditInfo
+from widgets import BtnOfIncomeMoney, BtnOfExpenses, ErrorConnDB
 
 from kivy.core.window import Window
 

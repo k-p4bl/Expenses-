@@ -77,6 +77,30 @@
     col_force_default: True
     cols_minimum: {0: dp(225), 1: dp(110)}
 
+<DropDownList>:
+    size_hint: None, None 
+    width: dp(337)
+    height: dp(118)
+    scroll_type: ['bars', 'content']
+    canvas: 
+        Color:
+            rgba: .961, .961, .961, 1
+        Rectangle: 
+            pos: self.pos 
+            size: self.size 
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint: None, None 
+        width: dp(337)
+        spacing: dp(5)
+        height: sum([ch.height for ch in self.children])
+        canvas: 
+            Color: 
+                rgba: 1, 0, 0, .5
+            Rectangle: 
+                pos: self.pos 
+                size: self.size 
+
 <NavigateButtons>:
     size_hint_y: None
     height: '74dp'

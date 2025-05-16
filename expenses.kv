@@ -43,30 +43,36 @@
                     text: 'Доходы в этом месяце'
                     height: '32dp'
                     halign: 'left'
+                    key: "income"
                 LabelWithInfo:
                     text: month_info.sum_income
                     height: '32dp'
-                    color: (.26, .6, .16, 1)
+                    color: .26, .6, .16, 1
                     halign: 'right'
+                    key: "income"
                 LabelWithInfo:
                     text: 'Расходы в этом месяце'
                     height: '32dp'
                     halign: 'left'
+                    key: "expenses"
                 LabelWithInfo:
                     text: month_info.sum_expenses
                     height: '32dp'
                     color: .9, .16, .16, 1
                     halign: 'right'
+                    key: "expenses"
                 LabelWithInfo:
                     id: last_in_month_info
                     text: 'Расходы на погашение долгов'
                     height: '32dp'
                     halign: 'left'
+                    key: "credit"
                 LabelWithInfo:
                     text: month_info.sum_credit
                     height: '32dp'
                     color: .984, .6941, .09
                     halign: 'right'
+                    key: "credit"
 
             Label:
                 id: second_header
